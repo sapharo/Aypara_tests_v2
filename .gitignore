@@ -42,3 +42,5 @@ screenshots/
 *.png
 test-output/
 logs/
+
+.allure/
