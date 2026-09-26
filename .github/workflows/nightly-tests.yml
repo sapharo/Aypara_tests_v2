@@ -32,8 +32,13 @@ jobs:
           tar -zxvf allure.tgz
           echo "$PWD/allure-2.29.0/bin" >> $GITHUB_PATH
 
+      - name: Check Allure CLI version and help
+        run: |
+          allure --version
+          allure generate --help
+
       - name: Generate single-file Allure report
-        run: allure generate --single-file target/allure-results -o target/allure-single-report --clean
+        run: allure generate target/allure-results -o target/allure-single-report --clean --single-file
 
       - name: Upload single-file Allure report
         uses: actions/upload-artifact@v4
