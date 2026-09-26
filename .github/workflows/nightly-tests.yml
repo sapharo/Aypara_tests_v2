@@ -26,11 +26,17 @@ jobs:
         run: mvn clean test
         continue-on-error: true
 
-      - name: Generate Allure report
-        run: mvn allure:report
+      - name: Install Allure CLI
+        run: |
+          curl -o allure.tgz -L https://github.com/allure-framework/allure2/releases/download/2.29.0/allure-2.29.0.tgz
+          tar -zxvf allure.tgz
+          echo "$PWD/allure-2.29.0/bin" >> $GITHUB_PATH
 
-      - name: Upload Allure report
+      - name: Generate single-file Allure report
+        run: allure generate --single-file target/allure-results -o target/allure-single-report --clean
+
+      - name: Upload single-file Allure report
         uses: actions/upload-artifact@v4
         with:
-          name: allure-report
-          path: target/site/allure-maven-plugin
+          name: allure-single-file-report
+          path: target/allure-single-report/index.html
